@@ -16,4 +16,5 @@ class Solution:
             index += step
 
         return ''.join(rows)
-
+        # Time: O(|s|)
+        # Space: O(|s|)
