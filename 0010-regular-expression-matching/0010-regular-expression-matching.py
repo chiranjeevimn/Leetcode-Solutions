@@ -1,0 +1,21 @@
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        m, n = len(s), len(p)
+        dp = [[False] * (n + 1) for _ in range(m + 1)]
+        dp[0][0] = True
+
+        def match(i: int, j: int) -> bool:
+            return j >= 0 and (p[j] == '.' or s[i] == p[j])
+
+        for j, c in enumerate(p):
+            if c == '*' and dp[0][j - 1]:
+                dp[0][j + 1] = True
+
+        for i in range(m):
+            for j in range(n):
+                if p[j] == '*':
+                    dp[i + 1][j + 1] = dp[i + 1][j - 1] or (match(i, j - 1) and dp[i][j + 1])
+                elif match(i, j):
+                    dp[i + 1][j + 1] = dp[i][j]
+
+        return dp[m][n]
